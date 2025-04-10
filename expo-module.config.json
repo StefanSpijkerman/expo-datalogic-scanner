@@ -1,0 +1,17 @@
+{
+  "platforms": [
+    "apple",
+    "android",
+    "web"
+  ],
+  "apple": {
+    "modules": [
+      "ExpoDatalogicScannerModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "expo.modules.datalogicscanner.ExpoDatalogicScannerModule"
+    ]
+  }
+}

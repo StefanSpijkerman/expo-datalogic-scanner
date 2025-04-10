@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "expo-datalogic-scanner": ["../src/index"],
+      "expo-datalogic-scanner/*": ["../src/*"]
+    }
+  }
+}
