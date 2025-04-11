@@ -1,7 +1,21 @@
-// Reexport the native module. On web, it will be resolved to ExpoDatalogicScannerModule.web.ts
-// and on native platforms to ExpoDatalogicScannerModule.ts
-import ExpoDatalogicScannerModule from "./ExpoDatalogicScannerModule";
+import { EventEmitter } from 'expo-modules-core';
+import ExpoDatalogicScannerModule from './ExpoDatalogicScannerModule';
 
-export function hello(): string {
-  return ExpoDatalogicScannerModule.hello();
-}
+type DatalogicScannerEvents = {
+  onBarcodeScanned: (event: { scanData: string }) => void;
+};
+
+const emitter = new EventEmitter<DatalogicScannerEvents>(ExpoDatalogicScannerModule);
+
+const addListener = (callback: (event: { scanData: string }) => void) => {
+  return emitter.addListener('onBarcodeScanned', callback);
+};
+
+const startScan = () => ExpoDatalogicScannerModule.startScan();
+const stopScan = () => ExpoDatalogicScannerModule.stopScan();
+
+export default {
+  addListener,
+  startScan,
+  stopScan,
+};
