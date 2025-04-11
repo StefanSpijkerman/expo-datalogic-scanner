@@ -1,14 +1,12 @@
 import { SafeAreaView, Text, View } from 'react-native';
-import {
-  hello,
-} from "expo-datalogic-scanner";
+import startScan, { } from "expo-datalogic-scanner";
 
 export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text>{hello()}</Text>
+        <Text>{startScan()}</Text>
       </View>
     </SafeAreaView>
   );
