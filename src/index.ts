@@ -1,32 +1,21 @@
-// Reexport the native module. On web, it will be resolved to ExpoDatalogicScannerModule.web.ts
-// and on native platforms to ExpoDatalogicScannerModule.ts
-import { useCallback, useState } from 'react';
-import { useFocusEffect } from 'expo-router';
-import ExpoDatalogicScannerModule from "./ExpoDatalogicScannerModule";
+import { EventEmitter } from 'expo-modules-core';
+import ExpoDatalogicScannerModule from './ExpoDatalogicScannerModule';
 
-const [barcode, setBarcode] = useState<string>();
+type DatalogicScannerEvents = {
+  onBarcodeScanned: (event: { scanData: string }) => void;
+};
 
-useFocusEffect(
-  useCallback(() => {
-    const listener = ExpoDatalogicScannerModule.addListener(event => {
-      const { scanData } = event;
-      setBarcode(scanData);
-      console.log('Scan data:', scanData);
-    });
+const emitter = new EventEmitter<DatalogicScannerEvents>(ExpoDatalogicScannerModule);
 
-    ExpoDatalogicScannerModule.startScan();
-
-    return () => {
-      ExpoDatalogicScannerModule.stopScan();
-      listener.remove();
-    };
-  }, []),
-);
+const addListener = (callback: (event: { scanData: string }) => void) => {
+  return emitter.addListener('onBarcodeScanned', callback);
+};
 
 const startScan = () => ExpoDatalogicScannerModule.startScan();
 const stopScan = () => ExpoDatalogicScannerModule.stopScan();
 
 export default {
+  addListener,
   startScan,
   stopScan,
 };
